@@ -1,12 +1,17 @@
 import React from 'react';
 import './post-list-item.css';
 
-const PostListItem = () => {
+const PostListItem = ({label, important = false}) => {
+
+    let classNames = "app-list-item d-flex justify-content-between";
+    if (important) {
+        classNames += " important";
+    }
 
     return(
-        <li className="app-list-item d-flex justify-content-between">
+        <li className={classNames}>
             <span className="app-list-item-label">
-                Hello from list.
+                {label}
             </span>
             <div className="d-flex justify-content-center align-items-center">
                 <button
