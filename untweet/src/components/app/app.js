@@ -24,7 +24,9 @@ export default class App extends Component {
                 { label: "still learning....", important: false, like: false, id: 3 },
                 { label: "i need a breake....", important: true, like: false, id: 4 }
             ],
-            term: ""
+            term: "",
+
+            filter: "all"
         };
 
         this.deleteItem = this.deleteItem.bind(this);
@@ -33,6 +35,7 @@ export default class App extends Component {
         this.onToggleImportant = this.onToggleImportant.bind(this);
         this.onToggleLiked = this.onToggleLiked.bind(this);
         this.onUpdateSearch = this.onUpdateSearch.bind(this);
+        this.onFilterSelect = this.onFilterSelect.bind(this);
     }
     deleteItem(id) {
         this.setState(({ data }) => {
@@ -108,13 +111,25 @@ export default class App extends Component {
         onUpdateSearch(term) {
             this.setState({term});
         }
+
+        filterPost(items, filter) {
+            if(filter === "like"){
+                return items.filter(item => item.like);
+            }else{
+                return items;
+            }
+        }
+        onFilterSelect(filter){
+            this.setState({filter});
+        }
+
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         const liked = data.filter(item => item.like).length;
         const allPosts = data.length;
 
-        const visiblePosts = this.searchPost(data, term);
-        
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
+
         return (
             <AppBlock>
                 <AppHeader 
@@ -124,7 +139,9 @@ export default class App extends Component {
                 <div className="search-panel d-flex">
                     <SearchPannel 
                     onUpdateSearch={this.onUpdateSearch} />
-                    <PostStatusFilter />
+                    <PostStatusFilter
+                    filter={filter} 
+                    onFilterSelect = {this.onFilterSelect}/>
                 </div>
                 <PostList posts={visiblePosts}
                     onDelete={this.deleteItem} 
