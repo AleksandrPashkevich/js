@@ -23,7 +23,8 @@ export default class App extends Component {
                 { label: "That is good", important: true, like: false, id: 2 },
                 { label: "still learning....", important: false, like: false, id: 3 },
                 { label: "i need a breake....", important: true, like: false, id: 4 }
-            ]
+            ],
+            term: ""
         };
 
         this.deleteItem = this.deleteItem.bind(this);
@@ -31,6 +32,7 @@ export default class App extends Component {
         this.maxId=5;
         this.onToggleImportant = this.onToggleImportant.bind(this);
         this.onToggleLiked = this.onToggleLiked.bind(this);
+        this.onUpdateSearch = this.onUpdateSearch.bind(this);
     }
     deleteItem(id) {
         this.setState(({ data }) => {
@@ -93,13 +95,25 @@ export default class App extends Component {
             }
         });
     }
+    searchPost(items, term) {
+        if (term.length === 0) {
+            return items
+        }
 
+        return items.filter( (item) => {
+            return item.label.indexOf(term) > -1
+        });
+    }
 
+        onUpdateSearch(term) {
+            this.setState({term});
+        }
     render() {
-        const {data} = this.state;
+        const {data, term} = this.state;
         const liked = data.filter(item => item.like).length;
         const allPosts = data.length;
 
+        const visiblePosts = this.searchPost(data, term);
         return (
             <AppBlock>
                 <AppHeader 
@@ -107,10 +121,11 @@ export default class App extends Component {
                 allPosts = {allPosts}/>
                 
                 <div className="search-panel d-flex">
-                    <SearchPannel />
+                    <SearchPannel 
+                    onUpdateSearch={this.onUpdateSearch} />
                     <PostStatusFilter />
                 </div>
-                <PostList posts={this.state.data}
+                <PostList posts={visiblePosts}
                     onDelete={this.deleteItem} 
                     onToggleImportant={this.onToggleImportant}
                     onToggleLiked={this.onToggleLiked}/>
