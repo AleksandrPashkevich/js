@@ -114,6 +114,7 @@ export default class App extends Component {
         const allPosts = data.length;
 
         const visiblePosts = this.searchPost(data, term);
+        
         return (
             <AppBlock>
                 <AppHeader 
