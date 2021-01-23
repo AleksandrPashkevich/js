@@ -28,23 +28,23 @@ export default class GotService {
 
     async getAllHouses(){
         const houses = await this.getResource('/houses/');
-        return houses.map(this._transformCharacter);
+        return houses.map(this._transformHouse);
         
     }
 
     async getHouse(id){
         const house =await this.getResource(`/houses/${id}`);
-        return this._transformCharacter(house);
+        return this._transformHouse(house);
     }
 
     async getAllBooks(){
         const books = await this.getResource(`/books/`);    
-        return books.map(this._transformCharacter);
+        return books.map(this._transformBook);
     }
 
     async getBook(id){
         const book = await this.getResource(`/books/${id}`);
-        return this._transformCharacter(book);
+        return this._transformBook(book);
     }
 
       
@@ -56,6 +56,26 @@ export default class GotService {
                 born:char.born,
                 died: char.died,
                 culture: char.culture
+        }
+    }
+
+    _transformHouse(house) {
+        return{
+            name: house.name,
+            region: house.region,
+            words: house.words,
+            titles:house.titles,
+            overlord:house.overlord,
+            ancestralWeapons:house.ancestralWeapons,
+        }
+    }
+
+    _transformBook(book) {
+        return{
+            name: book.name,
+            numberOfPages:book.numberOfPages,
+            publisher:book.publisher,
+            released:book.released
         }
     }
 }

@@ -1,21 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
+import { Button } from 'reactstrap';
 
 
-const App = () => {
-    return (
+
+
+export default class App extends Component {   
+
+state = {
+        showRCcontent: false        
+   }
+
+
+   showRCcontent = () => {
+      this.setState((state) => {
+          return {
+              showRCcontent: !state.showRCcontent
+          }
+      })  
+   }
+
+    render () {
+        let btn;      
+       
+        const rCcontent =  this.state.showRCcontent ? <RandomChar/> : null;
+
+        if (this.state.showRCcontent){
+                btn = <Button color="success" onClick = {this.showRCcontent}>Hide random character...</Button>
+        } else {
+            btn = <Button color="primary" onClick = {this.showRCcontent}>Show random character...</Button>
+        }
+
+        return(
         <> 
             <Container>
                 <Header />
+                {btn}
             </Container>
             <Container>
                 <Row>
                     <Col lg={{size: 5, offset: 0}}>
-                        <RandomChar/>
+                        {rCcontent}              
+                                          
+                    
                     </Col>
                 </Row>
                 <Row>
@@ -27,8 +58,9 @@ const App = () => {
                     </Col>
                 </Row>
             </Container>
-        </>
-    );
+        </>  
+        );
+}
 };
 
-export default App;
+
