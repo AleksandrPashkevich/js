@@ -15,7 +15,6 @@ export default class RandomChar extends Component {
 
     gotService = new GotService();
 
-
     state = {
         char: {},
         loading: true,

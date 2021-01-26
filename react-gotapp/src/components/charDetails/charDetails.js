@@ -3,7 +3,17 @@ import './charDetails.css';
 import gotService from '../../services/got-service'
 import Spinner from '../spinner';
 
-
+const Field = ({char, field, label}) => {
+    return (
+        <li className="list-group-item d-flex justify-content-between">
+                        <span className="term">{label}</span>
+                        <span>{char[field]}</span>
+                    </li>
+    )
+}
+export {
+    Field
+}
 export default class CharDetails extends Component {
 
         gotService = new gotService();
@@ -47,28 +57,16 @@ export default class CharDetails extends Component {
         if(!this.state.char) {
             return <span className='select-error'><Spinner/></span>
         }
-
-        const {name, gender, born, died, culture} = this.state.char;
+        const {char} = this.state;
+        const {name} = char;
         return (
             <div className="char-details rounded">
-                <h4>{this.postData(name)}</h4>
+                <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Gender</span>
-                        <span>{this.postData(gender)}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Born</span>
-                        <span>{this.postData(born)}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Died</span>
-                        <span>{this.postData(died)}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Culture</span>
-                        <span>{this.postData(culture)}</span>
-                    </li>
+                   {React.Children.map(this.props.children, (child) => {
+                       return React.cloneElement(child, {char})
+                   })
+                   }
                 </ul>
             </div>
         );
