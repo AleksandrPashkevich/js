@@ -3,14 +3,14 @@ import './randomChar.css';
 import GotService from '../../services/got-service/';
 import Spinner from '../spinner/';
 import ErrorMessage from '../errorMessage';
+import propTypes from 'prop-types';
 
 export default class RandomChar extends Component {
 
     constructor() {
-        super();
-      
+        super();     
         
-        console.log('Constructor ' + new Date () );
+       console.log('Constructor ' + new Date () );
     }
 
     gotService = new GotService();
@@ -30,13 +30,13 @@ export default class RandomChar extends Component {
     }
 
     componentDidMount(){
-        console.log('Mounting ' + new Date());
+      //  console.log('Mounting ' + new Date());
         this.updateChar();
-        this.timerID = setInterval(this.updateChar, 5000);
+        this.timerID = setInterval(this.updateChar, this.props.interval);
     }
 
     componentWillUnmount(){
-        console.log('Unmounting ' + new Date());
+      //  console.log('Unmounting ' + new Date());
         clearInterval(this.timerId);
     }
 
@@ -56,7 +56,7 @@ export default class RandomChar extends Component {
 
 
     render() {
-        console.log('Render ... ' + new Date());
+       // console.log('Render ... ' + new Date());
         const { char, loading, error} = this.state;    
 
         const errorMessage = error ? <ErrorMessage/> : null;
@@ -74,6 +74,14 @@ export default class RandomChar extends Component {
         );
 
     }
+}
+
+RandomChar.defaultProps = {
+    interval: 15000
+}
+
+RandomChar.propTypes = {
+    interval: propTypes.number
 }
 
 const View = ({char}) => {

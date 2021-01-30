@@ -5,9 +5,18 @@ import RandomChar from '../randomChar';
 import { Button } from 'reactstrap';
 import ErrorMessage from '../errorMessage';
 import CharacterPage from '../characterPage';
-import CharDetails from '../charDetails';
-import ItemList from '../itemList';
+import BookPage from '../pages/books/bookPage';
+import HousePage from '../pages/house/housePage';
+import BooksItem from '../pages/books/booksItem';
 import gotService from '../../services/got-service';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'; 
+import '../../index.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import './app.css'
+
+
+
+
 
 
 
@@ -17,8 +26,7 @@ export default class App extends Component {
 
     state = {
         showRCcontent: false,
-        error: false,
-        
+        error: false    
     }
 
     componentDidCatch() {
@@ -35,14 +43,18 @@ export default class App extends Component {
             }
         })
     };
+  
+    
+    
 
 
 
     render() {
-        let btn;
 
-        const rCcontent = this.state.showRCcontent ? <RandomChar /> : null;
-
+        let btn;      
+    
+        const rCcontent = this.state.showRCcontent ? <RandomChar interval={60000} /> : null;
+        
         if (this.state.error) {
             return <ErrorMessage />
         }
@@ -52,9 +64,10 @@ export default class App extends Component {
         } else {
             btn = <Button color="primary" onClick={this.showRCcontent}>Show random character...</Button>
         }
-
+        
         return (
-            <>
+            <Router>
+                <div className="app">
                 <Container>
                     <Header />
                     {btn}
@@ -66,32 +79,33 @@ export default class App extends Component {
 
                         </Col>
                     </Row>
-                    <CharacterPage />
+                                     
                     <Row>
-                        <Col md='6'>
-                            <ItemList
-                             onItemSelected={this.onItemSelected}
-                            getData={this.gotService.getAllBooks}
-                            renderItem={(item) => item.name}/>
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails charId={this.state.selectedChar} />
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col md='6'>
-                            <ItemList onItemSelected={this.onItemSelected}
-                            getData={this.gotService.getAllHouses} 
-                            renderItem={(item) => `${item.name}`}/>
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails charId={this.state.selectedChar} />
-                        </Col>
-                    </Row>
+                        <Route path='/character' component={CharacterPage}/>
+                        <Route path='/houses' component={HousePage}/>
+                        <Route path='/books' exact  component={BookPage}/>
+                        <div className=".app">
+                        <Route path='/books/:id' render={
+                            ({match}) => {
+                                console.log(match);
+                                const {id} = match.params;
+                               return (    <Row xs="1">                             
+                                   <BooksItem bookId={id}/>
+                                   <Link to="/books/">
+                                   <Button color="secondary"><h1> Back</h1> </Button>
+                                   </Link>
+                                   </Row>
+                               )
+                                   
+                            }
+                                }/>
+                                </div>
+                       
+                    </Row>                  
 
                 </Container>
-            </>
+                </div>
+            </Router>
         );
     }
 };

@@ -6,8 +6,10 @@
     "4": "0.0.0",
     "bootstrap": "^5.0.0-beta1",
     "node-sass": "^5.0.0",
+    "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "reactstrap": "^7.1.0",
     "styled-components": "^4.4.1"

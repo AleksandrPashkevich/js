@@ -1,9 +1,11 @@
 import React, {Component}from 'react';
+
 import ItemList from '../itemList';
 import CharDetails, {Field} from '../charDetails';
 import ErrorMessage from '../errorMessage';
 import gotService from '../../services/got-service'
 import RowBlock from '../rowBlock';
+
 
 
 export default class CharacterPage extends Component {
@@ -28,6 +30,7 @@ export default class CharacterPage extends Component {
 }
 render(){
     if (this.state.error) {
+        
         <ErrorMessage/>
     }
 
@@ -38,6 +41,7 @@ render(){
     );
 
     const charDetails = (
+        
         <CharDetails charId ={this.state.selectedChar}>
             <Field field ='gender' label='Gemder'/>
             <Field field ='born' label='Born'/>

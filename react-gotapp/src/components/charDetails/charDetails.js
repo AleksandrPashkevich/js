@@ -5,9 +5,10 @@ import Spinner from '../spinner';
 
 const Field = ({char, field, label}) => {
     return (
-        <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">{label}</span>
-                        <span>{char[field]}</span>
+        <li 
+        className="list-group-item d-flex justify-content-between">
+         <span className="term">{label}</span>
+        <span>{char[field]}</span>
                     </li>
     )
 }
@@ -42,7 +43,7 @@ export default class CharDetails extends Component {
                     char
                 })
             })
-          // this.foo.bar = 0;
+          
         }
 
         postData(data){
